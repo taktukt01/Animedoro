@@ -1,0 +1,23 @@
+design
+
+animedoro
+
+
+save to db
+
+
+1. finish UI and functionality
+
+
+2. Implement User registeration
+(OAuth)
+
+
+
+3. Allow users to see record of their past sessions
+
+-- WEEKLY MONTHLY YEARLY
+
+Firebase -> how to filter by date 
+https://www.youtube.com/watch?v=0ZNj5yMYCGc
+https://canvasjs.com/docs/charts/basics-of-creating-html5-chart/

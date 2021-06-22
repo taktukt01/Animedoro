@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
+
+  <!-- FontAwesome CDN -->
+  <script src="https://kit.fontawesome.com/c618e47551.js" crossorigin="anonymous"></script>
+
+  <title>Animedoro Application</title>
+
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+
+      <a class="navbar-brand" href="#">Animedoro</a>
+
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+        <li class="nav-item active">
+          <a class="nav-link" href="#">
+            <i class="far fa-chart-bar">
+            </i>
+
+            Report</a>
+
+        </li>
+
+        <li class="nav-item active">
+
+          <a class="nav-link" href="#">
+
+
+            <i class="fas fa-cog"></i>
+
+
+            Setting</a>
+          <!-- <a class="nav-item nav-link" href="#">
+          <i class="fas fa-user"></i>
+          
+          Login</a> -->
+          <!-- <div class="fb-login-button" data-width="" data-size="medium" data-button-type="login_with" data-layout="rounded" data-auto-logout-link="true" data-use-continue-as="true"></div> -->
+
+        </li>
+
+        <li class="nav-item">
+
+          <a class="nav-link disabled " href="#">
+            # Anime Sessions:
+            <span id="numberAnimeSessions">
+              0
+            </span>
+          </a>
+
+        </li>
+
+
+        <li class="nav-item">
+
+          <a class="nav-link disabled" href="#">
+            # Work Sessions:
+            <span id="numberWorkSessions">
+              0
+            </span>
+          </a>
+        </li>
+      </ul>
+
+
+      <button class="nav-item nav-link" id="signInWithFacebook" style="display:none ; border: 1px solid gray">Login with
+        your Facebook
+        <img src="./img/facebook.svg" class="mr-sm-2" width="20px" height="20px"
+          alt="Sign in with your Facebook account.">
+      </button>
+
+
+      <!--        
+        <h5  class="nav-item nav-link disabled d-none" id="userDisplay" ></h5> -->
+ <button id="signOutFacebook" style="display:none ; margin-left:10%">Logout
+    </button>
+
+    </div>
+    <!-- # Sessions:  -->
+  </nav>
+
+
+</head>
+
+<body>
+
+
+  <div class="jumbotron jumbotron-fluid text-center pt-5 mt-5">
+
+    <p class="h5 text-center" style="display:none" id="animeTime">
+      Anime time. &#128516
+      <br>
+
+      <p class="h5 text-center " style="display:none" id="workTime">
+        Work Time
+      </p>
+
+
+      <h1 class="display-4" id="timerDisplay">
+        <!-- Timer goes here -->
+      </h1>
+      <div class="d-flex justify-content-center">
+
+
+
+        <p class="lead p-2 m-2">
+          <a class="btn btn-dark btn-lg" role="button" id="startBtn">Start</a>
+        </p>
+
+
+        <p class="lead p-2 m-2">
+          <a class="btn btn-dark btn-lg" role="button" id="pauseBtn">Pause</a>
+        </p>
+
+
+        <!-- <p class="lead p-2 m-2">
+    <a class="btn btn-dark btn-lg" role="button" id ="saveBtn" >Save</a>
+  </p> -->
+
+
+      </div>
+
+
+
+
+  </div>
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-analytics.js"></script>
+
+  <!-- Firebase -- Auth -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+
+  <!-- Firestore -- DB  -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+
+  <script src="./js/jquery-3.6.0.min.js"></script>
+  <script src="./js/bootstrap.min.js"></script>
+
+  <script src="./js/script.js"></script>
+
+  <!-- <script src="./js/timer.js"></script> -->
+
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+
+  <!-- FB LOgin -->
+  <!-- <div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v11.0&appId=556682532385124&autoLogAppEvents=1" nonce="r8VygHUS"></script> -->
+
+
+  <!-- FACEBOOK SDK -->
+  <!-- <script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '556682532385124',
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v11.0'
+    });
+      
+    FB.AppEvents.logPageView();   
+
+
+    
+FB.getLoginStatus(function(response) {
+  if (response.status === 'connected') {
+    console.log(response.authResponse.accessToken);
+  }
+});
+      
+
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+
+
+
+   // Chck if user is already logged in
+    
+// FB.getLoginStatus(function(response) {
+//     statusChangeCallback(response);
+// });
+
+
+
+
+</script> -->
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+  </script>
+
+
+
+</body>
+
+</html>
