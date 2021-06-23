@@ -267,19 +267,19 @@ $(function () {
   const countDownElement = document.getElementById("timerDisplay");
   var isPaused = false;
   var startButton = document.getElementById("startBtn");
-
+  var countDown;  // our interval variable
   startButton.onclick = startTimer;
 
   $("#pauseBtn").on('click', function (e) {
     e.preventDefault();
-    isPaused = true;
+    clearInterval(countDown);
   });
 
 
   function startTimer() {
     //every second, calls back
     isPaused = false;
-    setInterval(updateCountdown, 1000);
+    countDown = setInterval(updateCountdown, 1000);
   }
 
 
@@ -313,10 +313,10 @@ $(function () {
             var date = new Date().toLocaleDateString();
             console.log(user.uid);
 
-            var docRef = collection.where("date", "==", date) ;
-            docRef.get().then(function(doc) {
-                if(!doc.empty){
-                  collection
+            var docRef = collection.where("date", "==", date);
+            docRef.get().then(function (doc) {
+              if (!doc.empty) {
+                collection
                   .where("uid", "==", user.uid)
                   .where("date", "==", date)
                   .get()
@@ -326,17 +326,16 @@ $(function () {
                     sessionToUpdate.workSessions = sessions;
                     document.ref.update(sessionToUpdate);
                   });
-                }
-              else{
+              } else {
 
                 var dataToAdd = {
                   uid: user.uid,
-                  date ,
-                  animeSessions : sessionStorage.getItem("animeSessions"),
+                  date,
+                  animeSessions: sessionStorage.getItem("animeSessions"),
                   workSessions: sessionStorage.getItem("workSessions")
                 }
                 collection.add(dataToAdd)
-                
+
               }
 
             });
@@ -383,35 +382,35 @@ $(function () {
             var date = new Date().toLocaleDateString();
 
             //get document reference if exists for current date
-            var docRef = collection.where("date", "==", date) ;
+            var docRef = collection.where("date", "==", date);
 
-            docRef.get().then(function(doc) {
-              if(!doc.empty){
+            docRef.get().then(function (doc) {
+              if (!doc.empty) {
                 collection
-                .where("uid", "==", user.uid)
-                .where("date", "==", date)
-                .get()
-                .then(result => {
-                  let document = result.docs[0];
-                  let sessionToUpdate = document.data();
-                  sessionToUpdate.workSessions = sessions;
-                  document.ref.update(sessionToUpdate);
-                });
-              }else{
+                  .where("uid", "==", user.uid)
+                  .where("date", "==", date)
+                  .get()
+                  .then(result => {
+                    let document = result.docs[0];
+                    let sessionToUpdate = document.data();
+                    sessionToUpdate.workSessions = sessions;
+                    document.ref.update(sessionToUpdate);
+                  });
+              } else {
 
                 var dataToAdd = {
                   uid: user.uid,
-                  date ,
-                  animeSessions : sessionStorage.getItem("animeSessions"),
+                  date,
+                  animeSessions: sessionStorage.getItem("animeSessions"),
                   workSessions: sessionStorage.getItem("workSessions")
                 }
                 collection.add(dataToAdd)
-                
+
               }
 
             });
 
-            }
+          }
 
 
         });
